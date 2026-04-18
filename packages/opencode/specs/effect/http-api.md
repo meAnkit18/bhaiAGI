@@ -1,6 +1,6 @@
 # HttpApi migration
 
-Practical notes for an eventual migration of `packages/opencode` server routes from the current Hono handlers to Effect `HttpApi`, either as a full replacement or as a parallel surface.
+Practical notes for an eventual migration of `packages/bhaiagi` server routes from the current Hono handlers to Effect `HttpApi`, either as a full replacement or as a parallel surface.
 
 ## Goal
 
@@ -53,7 +53,7 @@ Incoming data is decoded through Effect Schema instead of hand-maintained Zod va
 
 `Schema.TaggedErrorClass` maps naturally to endpoint error contracts.
 
-## Likely fit for opencode
+## Likely fit for bhaiagi
 
 Best fit first:
 
@@ -345,7 +345,7 @@ The Effect `HttpApi` layer owns its own auth and instance middleware, but it is 
 
 ### Instance and workspace lookup
 
-- the bridged `HttpApi` layer resolves instance context via an `HttpRouter.middleware` that reads `x-opencode-directory` headers and `directory` query params
+- the bridged `HttpApi` layer resolves instance context via an `HttpRouter.middleware` that reads `x-bhaiagi-directory` headers and `directory` query params
 - this is the Effect equivalent of the Hono `WorkspaceRouterMiddleware`
 - `HttpApi` handlers yield services from context and assume the correct instance has already been provided
 

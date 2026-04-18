@@ -18,9 +18,9 @@ Example:
 
 ```json
 {
-  "$schema": "https://opencode.ai/tui.json",
+  "$schema": "https://bhaiagi.ai/tui.json",
   "theme": "smoke-theme",
-  "plugin": ["@acme/opencode-plugin@1.2.3", ["./plugins/demo.tsx", { "label": "demo" }]],
+  "plugin": ["@acme/bhaiagi-plugin@1.2.3", ["./plugins/demo.tsx", { "label": "demo" }]],
   "plugin_enabled": {
     "acme.demo": false
   }
@@ -120,7 +120,7 @@ Example:
 
 ```json
 {
-  "name": "@acme/opencode-plugin",
+  "name": "@acme/bhaiagi-plugin",
   "type": "module",
   "main": "./dist/server.js",
   "exports": {
@@ -134,7 +134,7 @@ Example:
     }
   },
   "engines": {
-    "opencode": "^1.0.0"
+    "bhaiagi": "^1.0.0"
   }
 }
 ```
@@ -146,24 +146,24 @@ npm plugins can declare a version compatibility range in `package.json` using th
 ```json
 {
   "engines": {
-    "opencode": "^1.0.0"
+    "bhaiagi": "^1.0.0"
   }
 }
 ```
 
-- The value is a semver range checked against the running OpenCode version.
+- The value is a semver range checked against the running bhaiagi version.
 - If the range is not satisfied, the plugin is skipped with a warning and a session error.
-- If `engines.opencode` is absent, no check is performed (backward compatible).
+- If `engines.bhaiagi` is absent, no check is performed (backward compatible).
 - File plugins are never checked; only npm package plugins are validated.
 
 - Install flow is shared by CLI and TUI in `src/plugin/install.ts`.
 - Shared helpers are `installPlugin`, `readPluginManifest`, and `patchPluginConfig`.
-- `opencode plugin <module>` and TUI install both run install → manifest read → config patch.
-- Alias: `opencode plug <module>`.
+- `bhaiagi plugin <module>` and TUI install both run install → manifest read → config patch.
+- Alias: `bhaiagi plug <module>`.
 - `-g` / `--global` writes into the global config dir.
 - Local installs resolve target dir inside `patchPluginConfig`.
-- For local scope, path is `<worktree>/.opencode` only when VCS is git and `worktree !== "/"`; otherwise `<directory>/.opencode`.
-- Root-worktree fallback (`worktree === "/"` uses `<directory>/.opencode`) is covered by regression tests.
+- For local scope, path is `<worktree>/.bhaiagi` only when VCS is git and `worktree !== "/"`; otherwise `<directory>/.bhaiagi`.
+- Root-worktree fallback (`worktree === "/"` uses `<directory>/.bhaiagi`) is covered by regression tests.
 - `patchPluginConfig` applies all detected targets (`server` and/or `tui`) in one call.
 - `patchPluginConfig` returns structured result unions (`ok`, `code`, fields by error kind) instead of custom thrown errors.
 - `patchPluginConfig` serializes per-target config writes with `Flock.acquire(...)`.
@@ -180,7 +180,7 @@ npm plugins can declare a version compatibility range in `package.json` using th
 - There is no uninstall, list, or update CLI command for external plugins.
 - Local file plugins are configured directly in `tui.json`.
 
-When `plugin` entries exist in a writable `.opencode` dir or `OPENCODE_CONFIG_DIR`, bhaiagi installs `@bhaiagi/plugin` into that dir and writes:
+When `plugin` entries exist in a writable `.bhaiagi` dir or `OPENCODE_CONFIG_DIR`, bhaiagi installs `@bhaiagi/plugin` into that dir and writes:
 
 - `package.json`
 - `bun.lock`
@@ -304,7 +304,7 @@ Theme install behavior:
 - If the theme name already exists, install is skipped unless plugin metadata state is `updated`.
 - On `updated`, host skips rewrite when tracked `mtime`/`size` is unchanged.
 - When a theme already exists and state is not `updated`, host can still persist theme metadata when destination already exists.
-- Local plugins persist installed themes under the local `.opencode/themes` area near the plugin config source.
+- Local plugins persist installed themes under the local `.bhaiagi/themes` area near the plugin config source.
 - Global plugins persist installed themes under the global `themes` dir.
 - Invalid or unreadable theme files are ignored.
 
@@ -427,7 +427,7 @@ The plugin manager is exposed as a command with title `Plugins` and value `plugi
 
 ## Current in-repo examples
 
-- Local smoke plugin: `.opencode/plugins/tui-smoke.tsx`
-- Local vim plugin: `.opencode/plugins/tui-vim.tsx`
-- Local smoke config: `.opencode/tui.json`
-- Local smoke theme: `.opencode/plugins/smoke-theme.json`
+- Local smoke plugin: `.bhaiagi/plugins/tui-smoke.tsx`
+- Local vim plugin: `.bhaiagi/plugins/tui-vim.tsx`
+- Local smoke config: `.bhaiagi/tui.json`
+- Local smoke theme: `.bhaiagi/plugins/smoke-theme.json`

@@ -1,4 +1,4 @@
-# opencode database guide
+# bhaiagi database guide
 
 ## Database
 
@@ -19,7 +19,7 @@ of the file:
 ```ts
 // src/foo/foo.ts
 export interface Interface { ... }
-export class Service extends Context.Service<Service, Interface>()("@opencode/Foo") {}
+export class Service extends Context.Service<Service, Interface>()("@bhaiagi/Foo") {}
 export const layer = Layer.effect(Service, ...)
 export const defaultLayer = layer.pipe(...)
 
@@ -66,7 +66,7 @@ import { SessionStatus } from "@/session/status"
 Barrels in multi-sibling directories force every import through the barrel to
 evaluate every sibling, which defeats tree-shaking and slows module load.
 
-# opencode Effect rules
+# bhaiagi Effect rules
 
 Use these rules when writing or migrating Effect code.
 

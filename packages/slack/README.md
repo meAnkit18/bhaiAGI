@@ -24,4 +24,4 @@ Slack bot integration for bhaiagi that creates threaded conversations.
 bun dev
 ```
 
-The bot will respond to messages in channels where it's added, creating separate opencode sessions for each thread.
+The bot will respond to messages in channels where it's added, creating separate bhaiagi sessions for each thread.

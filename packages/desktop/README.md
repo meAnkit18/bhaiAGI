@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# bhaiagi Desktop
 
-Native OpenCode desktop app, built with Tauri v2.
+Native bhaiagi desktop app, built with Tauri v2.
 
 ## Prerequisites
 
