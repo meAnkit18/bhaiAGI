@@ -26,6 +26,10 @@ import { Log } from "@/util"
 import { LspTool } from "./lsp"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
+import { MouseTool } from "./mouse"
+import { KeyboardTool } from "./keyboard"
+import { WindowTool } from "./window"
+import { OcrTool } from "./ocr"
 import { Glob } from "@bhaiagi/shared/util/glob"
 import path from "path"
 import { pathToFileURL } from "url"
@@ -114,6 +118,10 @@ export const layer: Layer.Layer<
     const patchtool = yield* ApplyPatchTool
     const skilltool = yield* SkillTool
     const agent = yield* Agent.Service
+    const mouse = yield* MouseTool
+    const keyboard = yield* KeyboardTool
+    const window = yield* WindowTool
+    const ocr = yield* OcrTool
 
     const state = yield* InstanceState.make<State>(
       Effect.fn("ToolRegistry.state")(function* (ctx) {
@@ -194,6 +202,10 @@ export const layer: Layer.Layer<
           question: Tool.init(question),
           lsp: Tool.init(lsptool),
           plan: Tool.init(plan),
+          mouse: Tool.init(mouse),
+          keyboard: Tool.init(keyboard),
+          window: Tool.init(window),
+          ocr: Tool.init(ocr),
         })
 
         return {
@@ -216,6 +228,10 @@ export const layer: Layer.Layer<
             tool.patch,
             ...(Flag.OPENCODE_EXPERIMENTAL_LSP_TOOL ? [tool.lsp] : []),
             ...(Flag.OPENCODE_EXPERIMENTAL_PLAN_MODE && Flag.OPENCODE_CLIENT === "cli" ? [tool.plan] : []),
+            tool.mouse,
+            tool.keyboard,
+            tool.window,
+            tool.ocr,
           ],
           task: tool.task,
           read: tool.read,

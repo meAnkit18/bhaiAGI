@@ -915,7 +915,44 @@ NOTE: At any point in time through this workflow you should feel free to ask the
     const lastModel = Effect.fnUntraced(function* (sessionID: SessionID) {
       const match = yield* sessions.findMessage(sessionID, (m) => m.info.role === "user" && !!m.info.model)
       if (Option.isSome(match) && match.value.info.role === "user") return match.value.info.model
-      return yield* provider.defaultModel()
+      const exit = yield* provider.defaultModel().pipe(Effect.exit)
+      if (Exit.isSuccess(exit)) return exit.value
+      const err = Cause.squash(exit.cause)
+      const msg = err instanceof Error ? err.message : String(err)
+      const isNoProvider = msg.includes("no providers") || msg.includes("no models")
+      if (isNoProvider) {
+        const errorText =
+          "⚠️ No AI provider configured.\n\nSet an API key and restart the server:\n\n```\nANTHROPIC_API_KEY=sk-ant-...  bun run --cwd packages/opencode src/index.ts web\nOPENAI_API_KEY=sk-...         bun run --cwd packages/opencode src/index.ts web\nGOOGLE_GENERATIVE_AI_API_KEY=... bun run --cwd packages/opencode src/index.ts web\n```"
+        const lastUser = yield* sessions.findMessage(sessionID, (m) => m.info.role === "user")
+        if (Option.isSome(lastUser) && lastUser.value.info.role === "user") {
+          const ctx = yield* InstanceState.context
+          const assistantMsg: MessageV2.Assistant = {
+            id: MessageID.ascending(),
+            role: "assistant",
+            parentID: lastUser.value.info.id,
+            sessionID,
+            mode: "primary",
+            agent: "primary",
+            cost: 0,
+            path: { cwd: ctx.directory, root: ctx.worktree },
+            time: { created: Date.now() },
+            tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
+            modelID: ModelID.make("unknown"),
+            providerID: ProviderID.make("unknown"),
+          }
+          yield* sessions.updateMessage(assistantMsg)
+          yield* sessions.updatePart({
+            id: PartID.ascending(),
+            messageID: assistantMsg.id,
+            sessionID,
+            type: "text",
+            text: errorText,
+            time: { start: Date.now(), end: Date.now() },
+          })
+          yield* sessions.updateMessage({ ...assistantMsg, finish: "stop", time: { created: assistantMsg.time.created, completed: Date.now() } })
+        }
+      }
+      return yield* Effect.failCause(exit.cause)
     })
 
     const createUserMessage = Effect.fn("SessionPrompt.createUserMessage")(function* (input: PromptInput) {
