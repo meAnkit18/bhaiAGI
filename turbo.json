@@ -17,15 +17,6 @@
       "dependsOn": ["^build"],
       "outputs": [".artifacts/unit/junit.xml"],
       "passThroughEnv": ["*"]
-    },
-    "@bhaiagi/app#test": {
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
-    "@bhaiagi/app#test:ci": {
-      "dependsOn": ["^build"],
-      "outputs": [".artifacts/unit/junit.xml"],
-      "passThroughEnv": ["*"]
     }
   }
 }
