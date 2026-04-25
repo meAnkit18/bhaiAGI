@@ -5,7 +5,7 @@ import { FileComponentProvider } from "@bhaiagi/ui/context/file"
 import { MarkedProvider } from "@bhaiagi/ui/context/marked"
 import { File } from "@bhaiagi/ui/file"
 import { Font } from "@bhaiagi/ui/font"
-import { Splash } from "@bhaiagi/ui/logo"
+
 import { ThemeProvider } from "@bhaiagi/ui/theme/context"
 import { MetaProvider } from "@solidjs/meta"
 import { type BaseRouterProps, Navigate, Route, Router } from "@solidjs/router"
@@ -187,7 +187,7 @@ function ConnectionGate(props: ParentProps<{ disableHealthCheck?: boolean }>) {
     <Suspense
       fallback={
         <div class="h-dvh w-screen flex flex-col items-center justify-center bg-background-base">
-          <Splash class="w-16 h-20 opacity-50 animate-pulse" />
+          <div class="text-20-medium text-text-strong opacity-50 animate-pulse">bhaiAGI</div>
         </div>
       }
     >
@@ -195,7 +195,7 @@ function ConnectionGate(props: ParentProps<{ disableHealthCheck?: boolean }>) {
         when={checkMode() === "blocking" ? !startupHealthCheck.loading : startupHealthCheck.state !== "pending"}
         fallback={
           <div class="h-dvh w-screen flex flex-col items-center justify-center bg-background-base">
-            <Splash class="w-16 h-20 opacity-50 animate-pulse" />
+            <div class="text-20-medium text-text-strong opacity-50 animate-pulse">bhaiAGI</div>
           </div>
         }
       >*/}
@@ -236,7 +236,7 @@ function ConnectionError(props: { onRetry?: () => void; onServerSelected?: (key:
   return (
     <div class="h-dvh w-screen flex flex-col items-center justify-center bg-background-base gap-6 p-6">
       <div class="flex flex-col items-center max-w-md text-center">
-        <Splash class="w-12 h-15 mb-4" />
+        <div class="text-20-medium text-text-strong mb-4">bhaiAGI</div>
         <p class="text-14-regular text-text-base">
           {unreachable()[0]}
           <span class="text-text-strong font-medium">{name()}</span>

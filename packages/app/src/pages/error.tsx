@@ -1,5 +1,5 @@
 import { TextField } from "@bhaiagi/ui/text-field"
-import { Logo } from "@bhaiagi/ui/logo"
+
 import { Button } from "@bhaiagi/ui/button"
 import { Component, Show } from "solid-js"
 import { createStore } from "solid-js/store"
@@ -257,7 +257,7 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
   return (
     <div class="relative flex-1 h-screen w-screen min-h-0 flex flex-col items-center justify-center bg-background-base font-sans">
       <div class="w-2/3 max-w-3xl flex flex-col items-center justify-center gap-8">
-        <Logo class="w-58.5 opacity-12 shrink-0" />
+        <div class="text-32-medium text-text-strong opacity-12 shrink-0">bhaiAGI</div>
         <div class="flex flex-col items-center gap-2 text-center">
           <h1 class="text-lg font-medium text-text-strong">{language.t("error.page.title")}</h1>
           <p class="text-sm text-text-weak">{language.t("error.page.description")}</p>

@@ -1,6 +1,6 @@
 import { createMemo, For, Match, Switch } from "solid-js"
 import { Button } from "@bhaiagi/ui/button"
-import { Logo } from "@bhaiagi/ui/logo"
+
 import { useLayout } from "@/context/layout"
 import { useNavigate } from "@solidjs/router"
 import { base64Encode } from "@bhaiagi/shared/util/encode"
@@ -70,7 +70,7 @@ export default function Home() {
 
   return (
     <div class="mx-auto mt-55 w-full md:w-auto px-4">
-      <Logo class="md:w-xl opacity-12" />
+      <div class="text-32-medium text-text-strong opacity-12 md:w-xl">bhaiAGI</div>
       <Button
         size="large"
         variant="ghost"
